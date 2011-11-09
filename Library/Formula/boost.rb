@@ -48,10 +48,11 @@ class Boost < Formula
     #   /usr/local/lib/libboost_filesystem-mt.dylib (compatibility version 0.0.0, current version 0.0.0)
     #   /usr/local/libboost_system-mt.dylib (compatibility version 0.0.0, current version 0.0.0)
     inreplace 'tools/build/v2/tools/darwin.jam', '-install_name "', "-install_name \"#{HOMEBREW_PREFIX}/lib/"
+    inreplace 'tools/build/v2/tools/darwin.jam', '-no-cpp-precomp -gdwarf-2', "-gdwarf-2"
 
     # Force boost to compile using the appropriate GCC version
     open("user-config.jam", "a") do |file|
-      file.write "using darwin : : #{ENV['CXX']} ;\n"
+      file.write "using darwin : std0x : /usr/local/bin/g++-4.6 : <cxxflags>-std=gnu++0x ;\n"
       file.write "using mpi ;\n" if ARGV.include? '--with-mpi'
     end
 
@@ -65,6 +66,7 @@ class Boost < Formula
 
     args << "address-model=32_64" << "architecture=x86" << "pch=off" if ARGV.include? "--universal"
     args << "--without-python" if ARGV.include? "--without-python"
+    args << "--without-signals"
 
     # we specify libdir too because the script is apparently broken
     system "./bootstrap.sh", "--prefix=#{prefix}", "--libdir=#{lib}"
