@@ -25,6 +25,7 @@ module HomebrewEnvExtension
       when :clang then self.clang
       when :llvm then self.llvm
       when :gcc then self.gcc
+      when :gcc46 then self.gcc46
     end
 
     # we must have a working compiler!
@@ -128,15 +129,21 @@ module HomebrewEnvExtension
   alias_method :gcc_4_0, :gcc_4_0_1
 
   def gcc args = {}
-    self['CC']  = "/usr/local/bin/gcc-4.6"
-    self['CXX']  = "/usr/local/bin/g++-4.6"
-    #self['CC']  = "/usr/bin/gcc"
-    #self['CXX']  = "/usr/bin/g++"
+    self['CC']  = "/usr/bin/gcc"
+    self['CXX']  = "/usr/bin/g++"
 
     remove_from_cflags '-O4'
     @compiler = :gcc
   end
   alias_method :gcc_4_2, :gcc
+  
+  def gcc46 args = {}
+    self['CC']  = "/usr/local/bin/gcc-4.6"
+    self['CXX']  = "/usr/local/bin/g++-4.6"
+
+    remove_from_cflags '-O4'
+    @compiler = :gcc46
+  end
 
   def llvm
     self['CC']  = "/usr/bin/llvm-gcc"
@@ -315,6 +322,8 @@ Please take one of the following actions:
     # sensible, trust me
     @compiler ||= if ARGV.include? '--use-gcc'
       :gcc
+    elsif ARGV.include? '--use-gcc46'
+      :gcc46
     elsif ARGV.include? '--use-llvm'
       :llvm
     elsif ARGV.include? '--use-clang'
