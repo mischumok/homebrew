@@ -135,7 +135,15 @@ module HomebrewEnvExtension
     remove_from_cflags '-O4'
     @compiler = :gcc
   end
-  alias_method :gcc_4_2, :gcc
+  
+  def gcc_4_2
+    self['CC'] = '/usr/bin/gcc-4.2'
+    self['CXX'] = '/usr/bin/g++-4.2'
+    remove_from_cflags '-O4'
+    remove_from_cflags '-march=core2'
+    remove_from_cflags %r{-msse4(\.\d)?}
+    @compiler = :gcc
+  end
   
   def gcc46 args = {}
     self['CC']  = "/usr/local/bin/gcc-4.6"
