@@ -91,7 +91,6 @@ module HomebrewEnvExtension
   alias_method :gcc_4_0, :gcc_4_0_1
 
   def gcc args = {}
-<<<<<<< HEAD
     self['CC']  = "/usr/bin/gcc"
     self['CXX']  = "/usr/bin/g++"
 
@@ -105,33 +104,21 @@ module HomebrewEnvExtension
     remove_from_cflags '-O4'
     remove_from_cflags '-march=core2'
     remove_from_cflags %r{-msse4(\.\d)?}
-=======
     self['CC']  = "/usr/bin/gcc-4.2"
     self['CXX'] = "/usr/bin/g++-4.2"
     replace_in_cflags '-O4', '-O3'
     set_cpu_cflags 'core2 -msse4', :penryn => 'core2 -msse4.1', :core2 => 'core2', :core => 'prescott'
-<<<<<<< HEAD
->>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
-=======
->>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
     @compiler = :gcc
   end
   
   def gcc46 args = {}
     self['CC']  = "/usr/local/bin/gcc-4.6"
     self['CXX']  = "/usr/local/bin/g++-4.6"
-
-<<<<<<< HEAD
     remove_from_cflags '-O4'
     @compiler = :gcc46
-=======
     raise "GCC could not be found" if args[:force] and not File.exist? ENV['CC'] \
                                    or (File.symlink? ENV['CC'] \
                                    and File.readlink(ENV['CC']) =~ /llvm/)
-<<<<<<< HEAD
->>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
-=======
->>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
   end
 
   def llvm
