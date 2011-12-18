@@ -19,14 +19,6 @@ module HomebrewEnvExtension
     end
 
     # llvm allows -O4 however it often fails to link and is very slow
-    cflags = ['-O3']
-
-    case self.compiler
-      when :clang then self.clang
-      when :llvm then self.llvm
-      when :gcc then self.gcc
-      when :gcc46 then self.gcc46
-    end
     self['CFLAGS'] = self['CXXFLAGS'] = "-O3 #{SAFE_CFLAGS_FLAGS}"
 
     self.send self.compiler
@@ -91,29 +83,22 @@ module HomebrewEnvExtension
   alias_method :gcc_4_0, :gcc_4_0_1
 
   def gcc args = {}
-    self['CC']  = "/usr/bin/gcc"
-    self['CXX']  = "/usr/bin/g++"
-
-    remove_from_cflags '-O4'
-    @compiler = :gcc
-  end
-  
-  def gcc_4_2
-    self['CC'] = '/usr/bin/gcc-4.2'
-    self['CXX'] = '/usr/bin/g++-4.2'
-    remove_from_cflags '-O4'
-    remove_from_cflags '-march=core2'
-    remove_from_cflags %r{-msse4(\.\d)?}
     self['CC']  = "/usr/bin/gcc-4.2"
     self['CXX'] = "/usr/bin/g++-4.2"
     replace_in_cflags '-O4', '-O3'
     set_cpu_cflags 'core2 -msse4', :penryn => 'core2 -msse4.1', :core2 => 'core2', :core => 'prescott'
     @compiler = :gcc
+
+    raise "GCC could not be found" if args[:force] and not File.exist? ENV['CC'] \
+                                   or (File.symlink? ENV['CC'] \
+                                   and File.readlink(ENV['CC']) =~ /llvm/)
   end
+  alias_method :gcc_4_2, :gcc
   
   def gcc46 args = {}
     self['CC']  = "/usr/local/bin/gcc-4.6"
     self['CXX']  = "/usr/local/bin/g++-4.6"
+
     remove_from_cflags '-O4'
     @compiler = :gcc46
     raise "GCC could not be found" if args[:force] and not File.exist? ENV['CC'] \
