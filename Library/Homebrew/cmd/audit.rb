@@ -135,6 +135,15 @@ def audit_formula_text name, text
     problems << " * MacPorts patches should specify a revision instead of trunk"
   end
 
+  # Avoid hard-coding compilers
+  if text =~ %r[(system|ENV\[.+\]\s?=)\s?['"](/usr/bin/)?(gcc|llvm-gcc|clang)['" ]]
+    problems << " * Use \"\#{ENV.cc}\" instead of hard-coding \"#{$3}\""
+  end
+
+  if text =~ %r[(system|ENV\[.+\]\s?=)\s?['"](/usr/bin/)?((g|llvm-g|clang)\+\+)['" ]]
+    problems << " * Use \"\#{ENV.cxx}\" instead of hard-coding \"#{$3}\""
+  end
+
   return problems
 end
 
@@ -267,7 +276,7 @@ def audit_formula_instance f
 
     case d
     when "git", "python", "ruby", "emacs", "mysql", "postgresql"
-      problems << " * Don't use #{d} as a dependency; we allow non-Homebrew #{d} installs."
+      problems << " * Don't use #{d} as a dependency; we allow non-Homebrew\n   #{d} installs."
     end
   end
 
