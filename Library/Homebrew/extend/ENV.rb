@@ -19,7 +19,6 @@ module HomebrewEnvExtension
     end
 
     # llvm allows -O4 however it often fails to link and is very slow
-<<<<<<< HEAD
     cflags = ['-O3']
 
     case self.compiler
@@ -28,9 +27,7 @@ module HomebrewEnvExtension
       when :gcc then self.gcc
       when :gcc46 then self.gcc46
     end
-=======
     self['CFLAGS'] = self['CXXFLAGS'] = "-O3 #{SAFE_CFLAGS_FLAGS}"
->>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
 
     self.send self.compiler
     # we must have a working compiler!
@@ -113,6 +110,9 @@ module HomebrewEnvExtension
     self['CXX'] = "/usr/bin/g++-4.2"
     replace_in_cflags '-O4', '-O3'
     set_cpu_cflags 'core2 -msse4', :penryn => 'core2 -msse4.1', :core2 => 'core2', :core => 'prescott'
+<<<<<<< HEAD
+>>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
+=======
 >>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
     @compiler = :gcc
   end
@@ -128,6 +128,9 @@ module HomebrewEnvExtension
     raise "GCC could not be found" if args[:force] and not File.exist? ENV['CC'] \
                                    or (File.symlink? ENV['CC'] \
                                    and File.readlink(ENV['CC']) =~ /llvm/)
+<<<<<<< HEAD
+>>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
+=======
 >>>>>>> 9600b67ecaf5bbf2d3a115780b1004874893b450
   end
 
