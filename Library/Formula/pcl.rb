@@ -1,11 +1,12 @@
 require 'formula'
 
 class Pcl < Formula
-  url 'http://dev.pointclouds.org/attachments/download/528/PCL-1.3.0-Source.tar.bz2'
+  url 'http://dev.pointclouds.org/attachments/download/610/PCL-1.4.0-Source.tar.bz2'
   homepage 'http://www.pointclouds.org'
-  md5 'b6c602a3b667bc98701c2727d3689f8b'
-  version '1.3'
+  md5 '63fd633a6306ae9b334131b250a2f893'
+  version '1.4'
   head 'svn+ssh://svn@svn.pointclouds.org/pcl/trunk'
+
 
   depends_on 'cmake'
   #depends_on 'boost'
