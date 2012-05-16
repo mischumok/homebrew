@@ -12,9 +12,30 @@ class ShellFm < Formula
   depends_on 'libao'
   depends_on 'mad'
 
+  def patches
+    # fixes something small
+    DATA
+  end
+
   def install
     system "make"
     bin.install 'source/shell-fm'
     man1.install 'manual/shell-fm.1.gz'
   end
 end
+
+__END__
+diff --git a/source/play.c b/source/play.c
+index 53a1e98..6c0cc51 100644
+--- a/source/play.c
++++ b/source/play.c
+@@ -206,7 +206,7 @@ int playback(FILE * streamfd, int pipefd) {
+ 
+ 		freetrack = value(& track, "freeTrackURL");
+ 
+-		if(freetrack && strlen(freetrack) > 0 && haskey(& rc, "download")) {
++		if(haskey(& rc, "download")) {
+ 			char * dnam;
+ 			int rv;
+ 
+
