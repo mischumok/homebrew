@@ -1,18 +1,19 @@
 require 'formula'
 
+# Install with --use-llvm
+
 class Pcl < Formula
-  url 'http://dev.pointclouds.org/attachments/download/610/PCL-1.4.0-Source.tar.bz2'
+  url 'http://www.pointclouds.org/assets/files/1.5.1/PCL-1.5.1-Source.tar.bz2'
   homepage 'http://www.pointclouds.org'
-  md5 '63fd633a6306ae9b334131b250a2f893'
-  version '1.4'
+  md5 'd96479ab65245c64d91a6fe1d803275a'
+  version '1.5.1'
   head 'svn+ssh://svn@svn.pointclouds.org/pcl/trunk'
 
-
   depends_on 'cmake'
-  #depends_on 'boost'
+  depends_on 'boost'
   depends_on 'eigen'
   depends_on 'flann'
-  #depends_on 'cminpack'
+  depends_on 'cminpack'
   #depends_on 'vtk'
   depends_on 'qhull'
   depends_on 'libusb'

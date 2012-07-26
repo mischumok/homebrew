@@ -146,9 +146,9 @@ module HomebrewEnvExtension
   end
   alias_method :gcc_4_2, :gcc
   
-  def gcc46 args = {}
-    self['CC']  = "/usr/local/bin/gcc-4.6"
-    self['CXX']  = "/usr/local/bin/g++-4.6"
+  def gcc47 args = {}
+    self['CC']  = "/usr/local/bin/gcc-4.7"
+    self['CXX']  = "/usr/local/bin/g++-4.7"
 
     remove_from_cflags '-O4'
     @compiler = :gcc46
@@ -488,8 +488,8 @@ Please take one of the following actions:
     # sensible, trust me
     @compiler ||= if ARGV.include? '--use-gcc'
       :gcc
-    elsif ARGV.include? '--use-gcc46'
-      :gcc46
+    elsif ARGV.include? '--use-gcc47'
+      :gcc47
     elsif ARGV.include? '--use-llvm'
       :llvm
     elsif ARGV.include? '--use-clang'
